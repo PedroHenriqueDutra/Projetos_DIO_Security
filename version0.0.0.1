@@ -1,0 +1,42 @@
+import bs4
+import requests
+import bs4
+
+def syncro():
+    print("sincro")
+def Cadastro_login():
+    app = input("Digite o nome do aplicativo que deseja integrar: ")
+    email = input("Digite o seu login: ")
+    password = input("Digite a sua senha: ")
+    texto = app + "\n" + email + "\n" + password
+    return texto
+def API():
+    app=""
+    email=""
+    password=""
+    first=False
+    input("É a primeira execução do programa?")
+    try:
+        with open("exec.txt","r+") as exec:
+            exec.read()
+
+    except FileNotFoundError as error:
+        first=True
+    if first == True:
+
+        texto=Cadastro_login()
+        print(texto)
+        with open("exec.txt","w+") as exec:
+            exec.write(texto)
+    requisicao=requests.get("https://www.hashtagtreinamentos.com/try-e-except-no-python?gad_source=1&gclid=EAIaIQobChMIgcbNp9OBhgMV6DrUAR2UEwVoEAAYASAAEgIih_D_BwE")
+    print(requisicao.text)
+    soup=bs4.BeautifulSoup(requisicao.text,"html.parser")
+
+
+
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    API()
+
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
