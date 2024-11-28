@@ -1,0 +1,39 @@
+import os
+import pyaes
+
+# Solicitar o nome do arquivo criptografado
+filename = input("Digite o nome completo do arquivo criptografado: ")
+
+try:
+    # Abrir o arquivo criptografado
+    with open(filename, 'rb') as file:
+        file_data = file.read()
+
+    # Ler a chave de descriptografia do arquivo key.txt
+    with open('key.txt', 'rb') as chave:
+        key = chave.read()
+
+    # Verificar se a chave tem 16 bytes
+    if len(key) != 16:
+        raise ValueError("A chave deve ter 16 bytes!")
+
+    # Definir o modo de operação AES CTR
+    aes = pyaes.AESModeOfOperationCTR(key)
+    
+    # Descriptografar os dados
+    decrypt_data = aes.decrypt(file_data)
+
+    # Nome do novo arquivo descriptografado
+    new_file_name = 'teste.txt'
+
+    # Criar e escrever o arquivo descriptografado
+    with open(new_file_name, 'wb') as new_file:
+        new_file.write(decrypt_data)
+
+    # Remover o arquivo criptografado após a descriptografia
+    os.remove(filename)
+
+    print(f"Arquivo descriptografado com sucesso: {new_file_name}")
+
+except Exception as e:
+    print(f"Ocorreu um erro: {e}")
